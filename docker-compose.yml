@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   kafka-1:
     image: 'bitnami/kafka:3.3.2'
@@ -17,7 +19,7 @@ services:
     ports:
       - 9091:9091
     volumes:
-      - ../kafka-volumes/server-1:/bitnami/kafka
+      - kafka-1-data:/bitnami/kafka
 
   kafka-2:
     image: 'bitnami/kafka:3.3.2'
@@ -37,7 +39,7 @@ services:
     ports:
       - 9092:9092
     volumes:
-      - ../kafka-volumes/server-2:/bitnami/kafka
+      - kafka-2-data:/bitnami/kafka
 
   kafka-3:
     image: 'bitnami/kafka:3.3.2'
@@ -57,4 +59,9 @@ services:
     ports:
       - 9093:9093
     volumes:
-      - ../kafka-volumes/server-3:/bitnami/kafka
+      - kafka-3-data:/bitnami/kafka
+
+volumes:
+  kafka-1-data:
+  kafka-2-data:
+  kafka-3-data:

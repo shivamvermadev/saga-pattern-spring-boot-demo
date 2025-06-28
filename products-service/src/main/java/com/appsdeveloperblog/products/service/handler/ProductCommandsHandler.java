@@ -2,6 +2,7 @@ package com.appsdeveloperblog.products.service.handler;
 
 import com.appsdeveloperblog.core.commands.ReserveProductCommand;
 import com.appsdeveloperblog.core.dto.Product;
+import com.appsdeveloperblog.core.events.ProductReservationFailedEvent;
 import com.appsdeveloperblog.core.events.ProductReservedEvents;
 import com.appsdeveloperblog.products.service.ProductService;
 import org.slf4j.Logger;
@@ -42,6 +43,9 @@ public class ProductCommandsHandler {
             kafkaTemplate.send(productsEventsTopicName, productReservedEvents);
         } catch (Exception e) {
             log.error(e.getLocalizedMessage(), e);
+            ProductReservationFailedEvent productReservationFailedEvent = new ProductReservationFailedEvent(
+                    command.getProductId(), command.getOrderId(), command.getProductQuantity());
+            kafkaTemplate.send(productsEventsTopicName, productReservationFailedEvent);
         }
     }
 }
